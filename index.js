@@ -17,14 +17,14 @@ const resultHtml = fs.readFileSync('result.html', 'utf8');
 app.post('/', (req, res) => {
     const post = req.body;
     const result = rental.price(
-        String(post.pickup),
-        String(post.dropoff),
         Date.parse(post.pickupdate),
         Date.parse(post.dropoffdate),
         String(post.type),
-        Number(post.age)
+        Number(post.age),
+        Date.parse(post.LicenseDateObtaining),
     );
-    res.send(formHtml + resultHtml.replaceAll('$0', result));
+    res.send(formHtml + resultHtml.replace('_CAR_NAME_', post.type + ' car').replace('_TOTAL_PRICE_', typeof result == 'number' ? 'Result: $' + result + ' total' : result));
+
 });
 
 app.get('/', (req, res) => {
