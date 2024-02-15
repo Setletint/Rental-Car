@@ -6,7 +6,6 @@ const _ALL_CAR_CLASSES = ['compact', 'electric', 'cabrio', 'racer'];
 const _YEAR = 365;
 
 function calculatePrice(pickupDate, dropoffDate, type, age, LicenseDateObtaining) {
-
     const licenseDays = getLicenseDays(LicenseDateObtaining);
 
     const rentalDays = getRentalDays(pickupDate, dropoffDate);
@@ -126,7 +125,6 @@ function getRentalSeason(pickupDate, dropoffDate) {
 // NOT IMPLEMENTED YET
 
 function getLicenseDays(obtainingDate) {
-
     obtainingDate = new Date(Number(obtainingDate));
     currentDate = new Date();
 
