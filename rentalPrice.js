@@ -17,7 +17,8 @@ function calculatePrice(pickupDate, dropoffDate, type, age, LicenseDateObtaining
     }
 
     // The minimum rental price per day is equivalent to the age of the driver.
-    let rentalPrice = age * rentalDays;
+    let rentalPrice = totalPriceWithWeekends(age,pickupDate,rentalDays);
+    console.log(rentalPrice);
 
     let ageReqMet = ageReqCheck(age, type, rentalSeason, rentalPrice);
     if (typeof ageReqMet != 'number') {
@@ -122,8 +123,6 @@ function getRentalSeason(pickupDate, dropoffDate) {
     }
 }
 
-// NOT IMPLEMENTED YET
-
 function getLicenseDays(obtainingDate) {
     obtainingDate = new Date(Number(obtainingDate));
     currentDate = new Date();
@@ -135,5 +134,36 @@ function getLicenseDays(obtainingDate) {
     return daysPast;
 }
 
+// TDD part
+
+function isWeekend(rentDate){
+    let dayOfWeek = new Date(rentDate);
+    return dayOfWeek.getDay() % 6 === 0;
+}
+
+function totalPriceWithWeekends(age,pickupDate, rentalDays){
+    let i = 0;
+    let totalPrice = 0;
+    let clientAge = parseInt(age);
+
+
+    let currentLoopDay = new Date(pickupDate);
+
+
+    while(i < rentalDays){
+        if(isWeekend(currentLoopDay)){
+            totalPrice += (clientAge*1.05);
+        }else{
+            totalPrice += clientAge;
+        }
+        currentLoopDay.setDate(currentLoopDay.getDate()+1);
+        i++;
+    }
+    return parseFloat(totalPrice.toFixed(1));
+    //return Math.round((totalPrice + Number.EPSILON)*10)/10;
+}
+
 // Exports
 exports.price = calculatePrice;
+exports.isWeekend = isWeekend;
+exports.totalPriceWithWeekends = totalPriceWithWeekends;
